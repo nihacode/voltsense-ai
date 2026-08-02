@@ -1,0 +1,836 @@
+/* ==========================================================================
+   VoltSense AI – EV Battery Health & Thermal Analytics Platform
+   Unified CSS3 Stylesheet (Lab Experiment Implementation)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Google Fonts Import
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* --------------------------------------------------------------------------
+   CSS Custom Properties (Variables)
+   -------------------------------------------------------------------------- */
+:root {
+  --bg-primary: #0b0f19;
+  --bg-secondary: #111827;
+  --bg-card: rgba(17, 24, 39, 0.75);
+  --bg-card-hover: rgba(30, 41, 59, 0.85);
+  --color-electric-blue: #0066ff;
+  --color-electric-blue-glow: rgba(0, 102, 255, 0.4);
+  --color-cyan: #00f2fe;
+  --color-cyan-glow: rgba(0, 242, 254, 0.3);
+  --color-white: #ffffff;
+  --color-light-gray: #e2e8f0;
+  --color-muted-gray: #94a3b8;
+  --color-dark-navy: #0f172a;
+  --color-border: rgba(56, 189, 248, 0.2);
+  --color-border-bright: rgba(0, 242, 254, 0.6);
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+  --font-main: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition-fast: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 102, 255, 0.1);
+  --shadow-hover: 0 20px 40px -15px rgba(0, 242, 254, 0.3), 0 0 25px rgba(0, 102, 255, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   TASK 1: Basic Page Styling & Global Resets
+   -------------------------------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-main);
+  background: linear-gradient(135deg, #0b0f19 0%, #0f172a 40%, #1e1b4b 100%);
+  background-attachment: fixed;
+  color: var(--color-light-gray);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Animated Grid Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 254, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-wrapper {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+main {
+  flex: 1 0 auto;
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px var(--color-cyan-glow);
+  }
+  50% {
+    box-shadow: 0 0 30px var(--color-electric-blue-glow);
+  }
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.95); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+/* --------------------------------------------------------------------------
+   TASK 2: Header & Footer Styling
+   -------------------------------------------------------------------------- */
+/* Header Elements */
+header {
+  background: rgba(11, 15, 25, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.header-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--color-electric-blue), var(--color-cyan));
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b0f19;
+  font-weight: 800;
+  font-size: 1.5rem;
+  box-shadow: 0 0 20px var(--color-cyan-glow);
+}
+
+.header-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ffffff 0%, var(--color-cyan) 60%, var(--color-electric-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.header-tagline {
+  color: var(--color-muted-gray);
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+}
+
+.lab-badge {
+  display: inline-block;
+  background: rgba(0, 242, 254, 0.1);
+  color: var(--color-cyan);
+  border: 1px solid var(--color-border-bright);
+  padding: 0.2rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* Footer Styling */
+footer {
+  background: rgba(11, 15, 25, 0.98);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted-gray);
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+}
+
+footer p {
+  margin: 0.35rem 0;
+  font-size: 0.9rem;
+}
+
+footer strong {
+  color: var(--color-white);
+}
+
+.footer-divider {
+  display: inline-block;
+  margin: 0 0.5rem;
+  color: var(--color-border-bright);
+}
+
+.footer-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   TASK 3: Navigation Bar Styling
+   -------------------------------------------------------------------------- */
+.navbar-custom {
+  background: rgba(15, 23, 42, 0.9) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 0;
+  transition: var(--transition-fast);
+}
+
+.navbar-custom .navbar-nav {
+  gap: 0.5rem;
+}
+
+.navbar-custom .nav-link {
+  color: var(--color-light-gray) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.navbar-custom .nav-link:hover {
+  color: var(--color-cyan) !important;
+  background: rgba(0, 242, 254, 0.08);
+  transform: translateY(-1px);
+}
+
+.navbar-custom .nav-link.active {
+  color: var(--color-white) !important;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.3), rgba(0, 242, 254, 0.2));
+  border: 1px solid var(--color-border-bright);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+}
+
+.navbar-toggler {
+  border-color: var(--color-border-bright);
+  color: var(--color-cyan);
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 242, 254, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* --------------------------------------------------------------------------
+   TASK 4: Dashboard Cards Styling
+   -------------------------------------------------------------------------- */
+.telemetry-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-smooth);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.telemetry-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-electric-blue), var(--color-cyan));
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.telemetry-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--color-border-bright);
+  box-shadow: var(--shadow-hover);
+  background: var(--bg-card-hover);
+}
+
+.telemetry-card:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 10px var(--color-cyan);
+}
+
+.card-header-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(0, 102, 255, 0.15);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--color-cyan);
+}
+
+.card-title-custom {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-muted-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.metric-value-container {
+  margin: 0.5rem 0 1rem;
+}
+
+.metric-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--color-white);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.metric-unit {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--color-cyan);
+  margin-left: 0.2rem;
+}
+
+.metric-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Card Status Modifier Classes */
+.status-normal {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.status-normal .status-indicator {
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+}
+
+.status-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+.status-warning .status-indicator {
+  background: #fbbf24;
+  box-shadow: 0 0 8px #fbbf24;
+  animation: statusPulse 1.5s infinite;
+}
+
+.status-critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.status-critical .status-indicator {
+  background: #f87171;
+  box-shadow: 0 0 8px #f87171;
+  animation: statusPulse 1s infinite;
+}
+
+.status-info {
+  background: rgba(0, 242, 254, 0.15);
+  color: var(--color-cyan);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+}
+.status-info .status-indicator {
+  background: var(--color-cyan);
+  box-shadow: 0 0 8px var(--color-cyan);
+}
+
+/* Progress bar inside cards */
+.custom-progress-bg {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  height: 8px;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.custom-progress-bar {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--color-electric-blue), var(--color-cyan));
+  transition: width 1s ease-in-out;
+}
+
+/* --------------------------------------------------------------------------
+   TASK 5: Lists Styling (Ordered List & Description List)
+   -------------------------------------------------------------------------- */
+/* Custom Ordered List: Maintenance Checklist */
+.custom-ordered-list {
+  list-style: none;
+  counter-reset: custom-counter;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.custom-ordered-list li {
+  counter-increment: custom-counter;
+  background: var(--bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem 1rem 3.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  transition: var(--transition-fast);
+}
+
+.custom-ordered-list li::before {
+  content: counter(custom-counter, decimal-leading-zero);
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--color-electric-blue), var(--color-cyan));
+  color: #0b0f19;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px var(--color-cyan-glow);
+}
+
+.custom-ordered-list li:hover {
+  border-color: var(--color-border-bright);
+  background: var(--bg-card-hover);
+  transform: translateX(6px);
+  box-shadow: 0 5px 15px rgba(0, 242, 254, 0.15);
+}
+
+.list-item-title {
+  font-weight: 600;
+  color: var(--color-cyan);
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.list-item-desc {
+  font-size: 0.875rem;
+  color: var(--color-muted-gray);
+  margin: 0;
+}
+
+/* Custom Description List: EV Glossary */
+.custom-description-list {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin: 1.5rem 0;
+  box-shadow: var(--shadow-card);
+}
+
+.custom-description-list dt {
+  color: var(--color-cyan);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+}
+
+.custom-description-list dt:first-child {
+  margin-top: 0;
+}
+
+.custom-description-list dt::before {
+  content: '⚡';
+  font-size: 0.9rem;
+}
+
+.custom-description-list dd {
+  color: var(--color-light-gray);
+  background: rgba(30, 41, 59, 0.5);
+  border-left: 3px solid var(--color-electric-blue);
+  padding: 0.75rem 1rem;
+  margin-top: 0.4rem;
+  margin-left: 0;
+  margin-bottom: 1rem;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
+}
+
+.custom-description-list dd:hover {
+  background: rgba(30, 41, 59, 0.8);
+  border-left-color: var(--color-cyan);
+}
+
+/* --------------------------------------------------------------------------
+   UI COMPONENTS & CONTAINERS
+   -------------------------------------------------------------------------- */
+.section-header {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--color-cyan), var(--color-electric-blue));
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  color: var(--color-muted-gray);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* Hero Banner Component */
+.hero-banner {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.8)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><circle cx="50" cy="50" r="40" stroke="rgba(0,242,254,0.05)" stroke-width="1" fill="none"/></svg>');
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  right: -50px;
+  bottom: -50px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, var(--color-cyan-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.btn-volt {
+  background: linear-gradient(135deg, var(--color-electric-blue), #0044cc);
+  color: var(--color-white) !important;
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-bright);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+}
+
+.btn-volt:hover {
+  background: linear-gradient(135deg, #0052cc, var(--color-electric-blue));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
+  color: var(--color-white) !important;
+}
+
+.btn-volt-outline {
+  background: transparent;
+  color: var(--color-cyan) !important;
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-bright);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: var(--transition-fast);
+}
+
+.btn-volt-outline:hover {
+  background: rgba(0, 242, 254, 0.1);
+  color: var(--color-white) !important;
+  border-color: var(--color-cyan);
+  transform: translateY(-2px);
+}
+
+/* Glass Panels & Tables */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+.table-custom {
+  width: 100%;
+  color: var(--color-light-gray);
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+
+.table-custom th {
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--color-cyan);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  padding: 1rem;
+  border: none;
+}
+
+.table-custom td {
+  background: rgba(30, 41, 59, 0.4);
+  padding: 1rem;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.table-custom tr td:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.table-custom tr td:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.table-custom tr:hover td {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+/* Thermal Heatmap Simulation Grid */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.cell-module {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.85rem 0.5rem;
+  text-align: center;
+  transition: var(--transition-fast);
+}
+
+.cell-module:hover {
+  transform: scale(1.05);
+}
+
+.cell-name {
+  font-size: 0.75rem;
+  color: var(--color-muted-gray);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.cell-temp {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.temp-normal { color: #34d399; }
+.temp-warm { color: #fbbf24; }
+.temp-hot { color: #f87171; border-color: rgba(239, 68, 68, 0.5); animation: statusPulse 1.2s infinite; }
+
+/* --------------------------------------------------------------------------
+   TASK 6: Responsive Design & Media Queries
+   -------------------------------------------------------------------------- */
+
+/* Large Desktop (>1200px) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+/* Medium / Tablet Devices (768px - 991px) */
+@media (max-width: 991px) {
+  .header-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-banner {
+    padding: 2rem 1.5rem;
+  }
+
+  .metric-value {
+    font-size: 1.85rem;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile Devices (<768px) */
+@media (max-width: 767px) {
+  header {
+    padding: 1rem 0.5rem;
+  }
+
+  .header-title {
+    font-size: 1.4rem;
+  }
+
+  .header-tagline {
+    font-size: 0.8rem;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+  }
+
+  .telemetry-card {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .custom-ordered-list li {
+    padding: 0.85rem 1rem 0.85rem 3rem;
+  }
+
+  .custom-ordered-list li::before {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+    left: 0.6rem;
+  }
+
+  .custom-description-list {
+    padding: 1.25rem;
+  }
+
+  .custom-description-list dt {
+    font-size: 1rem;
+  }
+
+  .custom-description-list dd {
+    font-size: 0.875rem;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .btn-volt, .btn-volt-outline {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Extra Small Devices (<480px) */
+@media (max-width: 480px) {
+  .heatmap-grid {
+    grid-template-columns: 1fr;
+  }
+}
