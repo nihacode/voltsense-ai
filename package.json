@@ -1,0 +1,23 @@
+{
+  "name": "voltsense-ai",
+  "version": "1.0.0",
+  "description": "EV Battery Health & Thermal Analytics Platform - Node.js and Express.js backend demonstration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "node-demo": "node node_demo.js",
+    "express-demo": "node express_app.js"
+  },
+  "keywords": [
+    "voltsense",
+    "battery-health",
+    "express",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1"
+  }
+}
