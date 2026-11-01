@@ -15,13 +15,25 @@
 const express = require('express');
 const path = require('path');
 const batteryMath = require('./batteryMath'); // Reusing custom math module
+const connectDB = require('./config/db'); // MongoDB Connection Configuration
+const batteryRoutes = require('./routes/batteryRoutes'); // RESTful CRUD Routes (Task 2)
+const { requestLogger, errorHandler } = require('./middleware/telemetryMiddleware'); // Middleware & Error Handler (Task 2)
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Body parsing middleware for JSON data
+// Initialize MongoDB Database Connection (Task 1)
+connectDB();
+
+// Body parsing middleware for JSON & URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Task 2: Custom Request Logger Middleware
+app.use(requestLogger);
+
+// Task 2: Mount RESTful CRUD API Router
+app.use('/api/batteries', batteryRoutes);
 
 
 // ==============================================================================
@@ -147,6 +159,9 @@ app.post('/api/charging/start', (req, res) => {
     });
 });
 
+// Task 2: Centralized Error Handling Middleware (Catches Mongoose & routing errors)
+app.use(errorHandler);
+
 // --- 5. 404 Route Handler for undefined routes ---
 app.use((req, res) => {
     res.status(404).send(`
@@ -170,5 +185,6 @@ app.listen(PORT, () => {
     console.log(`>>> 3. Dynamic EJS Page:  http://localhost:${PORT}/live-status (Task II.3)`);
     console.log(`>>> 4. API Telemetry:     http://localhost:${PORT}/api/telemetry (Task II.1)`);
     console.log(`>>> 5. API Health:        http://localhost:${PORT}/api/battery-health`);
+    console.log(`>>> 6. CRUD MongoDB API:  http://localhost:${PORT}/api/batteries (Task 2)`);
     console.log("=======================================================\n");
 });
